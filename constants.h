@@ -1,0 +1,9 @@
+#ifndef CONSTANTS_H
+#define CONSTANTS_H 1
+
+#define DELTATIME	.1
+#define FUELMASS	10
+#define R_EARTH		6371000
+#define	G_PARAM		398600441800000
+
+#endif
