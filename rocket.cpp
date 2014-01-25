@@ -4,6 +4,8 @@
 #include "graphicsmath0/graphicsmath.h"
 #include "stdio.h"
 #include "stdlib.h"
+#include "physics.h"
+#include "debug.h"
 
 void rocket::update() {
 	calcmass();
@@ -20,7 +22,8 @@ void rocket::print() {
 	printf("	Altitude: %.2f\n", length(pos) - R_EARTH);
 	printf("	"); printlatlon(pos);
 	printf("	Fuel: %.2f\n", fuel);
-	printf("	Mass: %f\n", mass);
+	DEBUG(printf("	Air density: %f\n", airdensity(length(pos)-R_EARTH)));
+	DEBUG(printf("	Mass: %f\n", mass));
 }
 
 void rocket::collision() {
@@ -37,7 +40,7 @@ void rocket::collision() {
 
 void rocket::thrust() {
 	if (firing) {
-		accel(up * force / mass);
+		force(up * thrustforce);
 		fuel -= .128;
 	}
 	if (fuel <= 0) {
@@ -47,20 +50,24 @@ void rocket::thrust() {
 }
 
 void rocket::drag() {
-	vec3 force = -vel;
+	vec3 dragforce = -vel;
 	float v = length(vel);
-	force *= .5 * crosssection() * airdensity(pos) * dragcoef(v) * v;
+	dragforce *= .5 * crosssection() * airdensity(length(pos)) * dragcoef(v) * v;
+	force(dragforce);
 }
 
-void rocket::crosssection() {
+float rocket::crosssection() {
 	return 2.2698;
 }
-void rocket::dragcoef(float s) {
-	
+float rocket::dragcoef(float s) {
+	return 1;
 }
 
 void rocket::accel(const vec3 &a) {
 	vel += a * DELTATIME;
+}
+void rocket::force(const vec3 &a) {
+	vel += a * DELTATIME / mass;
 }
 
 void rocket::gravity() {
@@ -77,5 +84,5 @@ void rocket::fire(bool fstate) {
 }
 
 rocket::rocket(const vec3 &pos, float f, float fuel, float m) : 
-				pos(pos), up(vec3(0, 0, 1)), vel(0), firing(false), force(f), emptymass(m),
+				pos(pos), up(vec3(0, 0, 1)), vel(0), firing(false), thrustforce(f), emptymass(m),
 				fuel(fuel) { }

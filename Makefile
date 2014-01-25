@@ -1,6 +1,6 @@
 all: MissileGame
 
-OBJS=main.o vecutil.o rocket.o
+OBJS=main.o vecutil.o rocket.o physics.o
 
 MissileGame: $(OBJS)
 	g++ -o MissileGame $(OBJS) -L$(HOME)/usr/lib -lgraphicsmath0

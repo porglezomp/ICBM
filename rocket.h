@@ -6,7 +6,7 @@
 class rocket {
 	vec3 pos, up, vel;
 	bool firing;
-	float force, fuel, mass, emptymass;
+	float thrustforce, fuel, mass, emptymass;
 	float time;
 public:
 	rocket(const vec3&, float, float, float);
@@ -14,14 +14,16 @@ public:
 
 	void update();
 	void calcmass();
-	void accel(const vec3&);
 	void gravity();
 	void collision();
 	void thrust();
 	void drag();
-		void dragcoef();
-		void crosssection();
+		float dragcoef(float);
+		float crosssection();
 	
+	void accel(const vec3&);
+	void force(const vec3&);
+
 	void fire(bool);
 };
 
