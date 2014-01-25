@@ -5,6 +5,7 @@ body {
   font:14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
   color:#777;
   font-weight:300;
+  background-color: #efeff0
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -22,6 +23,12 @@ h1, h2, h3 {
 
 h1 {
   font-size:28px;
+  background: #0fd5a0;
+  border-radius: 8px;
+  padding: 6px;
+  margin: 1px;
+  border:1px solid #d2d2d2;
+  box-shadow:inset #5eb 0 1px 0, inset rgba(0,0,0,0.03) 0 -1px 0;
 }
 
 h2 {
@@ -30,6 +37,12 @@ h2 {
 
 h3, h4, h5, h6 {
   color:#494949;
+  background: #0fd5a0;
+  border-radius: 8px;
+  padding: 5px;
+  margin: 1px;
+  border:1px solid #d2d2d2;
+  box-shadow:inset #5eb 0 1px 0, inset rgba(0,0,0,0.03) 0 -1px 0;
 }
 
 a {
@@ -99,6 +112,10 @@ header {
   width:270px;
   float:left;
   position:fixed;
+  background: #fff;
+  padding: 8px;
+  margin: -8px;
+  border-radius: 8px;
 }
 
 header ul {
@@ -107,31 +124,30 @@ header ul {
   
   padding:0;
   
-  background: #eee;
-  background: -moz-linear-gradient(top, #f8f8f8 0%, #dddddd 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(100%,#dddddd));
-  background: -webkit-linear-gradient(top, #f8f8f8 0%,#dddddd 100%);
-  background: -o-linear-gradient(top, #f8f8f8 0%,#dddddd 100%);
-  background: -ms-linear-gradient(top, #f8f8f8 0%,#dddddd 100%);
-  background: linear-gradient(top, #f8f8f8 0%,#dddddd 100%);
+  background: #0fd5a0;
+  /*background: -moz-linear-gradient(top, #f8f8f8 0%, #dddddd 100%);*/
+  /*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(100%,#dddddd));*/
+  /*background: -webkit-linear-gradient(top, #f8f8f8 0%,#dddddd 100%);*/
+  /*background: -o-linear-gradient(top, #f8f8f8 0%,#dddddd 100%);*/
+  /*background: -ms-linear-gradient(top, #f8f8f8 0%,#dddddd 100%);*/
+  /*background: linear-gradient(top, #f8f8f8 0%,#dddddd 100%);*/
   
   border-radius:5px;
   border:1px solid #d2d2d2;
-  box-shadow:inset #fff 0 1px 0, inset rgba(0,0,0,0.03) 0 -1px 0;
+  box-shadow:inset #5eb 0 1px 0, inset rgba(0,0,0,0.03) 0 -1px 0;
   width:270px;
 }
 
 header li {
   width:89px;
   float:left;
-  border-right:1px solid #d2d2d2;
   height:40px;
 }
 
 header ul a {
   line-height:1;
   font-size:11px;
-  color:#999;
+  color:#444;
   display:block;
   text-align:center;
   padding-top:6px;
@@ -145,7 +161,7 @@ strong {
 
 header ul li + li {
   width:88px;
-  border-left:1px solid #fff;
+  border-left:1px solid #5eb;
 }
 
 header ul li + li + li {
@@ -163,6 +179,10 @@ section {
   width:500px;
   float:right;
   padding-bottom:50px;
+  background: #fff;
+  padding: 8px;
+  margin: -8px;
+  border-radius: 8px;
 }
 
 small {
