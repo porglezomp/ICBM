@@ -36,3 +36,6 @@ Makefile.in
 
 # SublimeText project files
 *.sublime-workspace
+
+###Macs###
+.DS_Store

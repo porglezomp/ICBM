@@ -10,6 +10,7 @@
 void rocket::update() {
 	calcmass();
 	gravity();
+	drag();
 	thrust();
 	pos += vel * DELTATIME;
 	collision();
@@ -19,21 +20,22 @@ void rocket::update() {
 void rocket::print() {
 	printf("Time: %02i:%02i:%02i:%02i\n", (int)(time/3600), (int)(time/60)%60, (int)(time)%60, (int)(time*60)%60);
 	printf("	Velocity: %.4f\n", length(vel));
-	printf("	Altitude: %.2f\n", length(pos) - R_EARTH);
+	printf("	Altitude: %.2f\n", altitude());
 	printf("	"); printlatlon(pos);
 	printf("	Fuel: %.2f\n", fuel);
-	DEBUG(printf("	Air density: %f\n", airdensity(length(pos)-R_EARTH)));
+	DEBUG(printf("	Air density: %f\n", airdensity(altitude())));
 	DEBUG(printf("	Mass: %f\n", mass));
+	DEBUG(float v = length(vel); printf("	Drag: %f\n", v * v * .5 * crosssection() * airdensity(altitude()) * dragcoef(v)));
 }
 
 void rocket::collision() {
-	if (pos.z < R_EARTH) {
+	if (altitude() < 0) {
 		if (length(vel) > 10) {
 			print();
 			printf("You crashed going really fast. (%f m/s)\n", length(vel));
 			exit(1);
 		}
-		pos.z = R_EARTH;
+
 		vel.z = .05;
 	}
 }
@@ -52,7 +54,7 @@ void rocket::thrust() {
 void rocket::drag() {
 	vec3 dragforce = -vel;
 	float v = length(vel);
-	dragforce *= .5 * crosssection() * airdensity(length(pos)) * dragcoef(v) * v;
+	dragforce *= .5 * crosssection() * airdensity(altitude()) * dragcoef(v) * v;
 	force(dragforce);
 }
 
@@ -60,7 +62,7 @@ float rocket::crosssection() {
 	return 2.2698;
 }
 float rocket::dragcoef(float s) {
-	return 1;
+	return .2;
 }
 
 void rocket::accel(const vec3 &a) {
@@ -68,6 +70,10 @@ void rocket::accel(const vec3 &a) {
 }
 void rocket::force(const vec3 &a) {
 	vel += a * DELTATIME / mass;
+}
+
+float rocket::altitude() {
+	return length(pos)-R_EARTH;
 }
 
 void rocket::gravity() {
@@ -84,5 +90,5 @@ void rocket::fire(bool fstate) {
 }
 
 rocket::rocket(const vec3 &pos, float f, float fuel, float m) : 
-				pos(pos), up(vec3(0, 0, 1)), vel(0), firing(false), thrustforce(f), emptymass(m),
+				pos(pos), up(normalize(vec3(.3, .2, 1))), vel(0), firing(false), thrustforce(f), emptymass(m),
 				fuel(fuel) { }

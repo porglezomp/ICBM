@@ -4,6 +4,7 @@
 #include "rocket.h"
 #include "constants.h"
 #include "physics.h"
+#include "debug.h"
 
 #ifdef _WIN32
 #include "windows.h"

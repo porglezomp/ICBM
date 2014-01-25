@@ -24,6 +24,8 @@ public:
 	void accel(const vec3&);
 	void force(const vec3&);
 
+	float altitude();
+
 	void fire(bool);
 };
 

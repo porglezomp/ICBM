@@ -5,6 +5,10 @@
 #include "stdio.h"
 #include "math.h"
 
+#define PI 3.141592654
+#define RAD2DEG 180/PI
+#define DEG2RAD PI/180
+
 void printvec(const vec2 &v) {
 	printf("<%.2f, %.2f>\n", v.x, v.y);
 }
@@ -26,9 +30,12 @@ void printveci(const vec4 &v) {
 }
 
 void printlatlon(const vec3 &v) {
-	char NvS = 'N';
-	char EvW = 'W';
-	float lat = 1.0;
-	float lon = 1.0;
+	char NvS = v.z > 0 ? 'N' : 'S';
+	char EvW = v.y > 0 ? 'E' : 'W';
+	float angle = acos(dot(normalize(v), vec3(0, 0, 1)))*RAD2DEG;
+	float lat;
+	if (angle < 90) lat = 90 - angle;
+	else lat = angle - 90;
+	float lon = acos(dot(normalize(v), vec3(1, 0, 0)))*RAD2DEG;
 	printf("%f %cº, %f %cº\n", lat, NvS, lon, EvW);
 }

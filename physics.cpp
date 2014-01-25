@@ -48,6 +48,5 @@ float airdensity(float z) {
 	if (z > 300) return 0;
 	if (z < 0) return 1.225;
 	atmEntry a = *densitymap[int(z)];
-	printf("%f, %f, %f\n", a.altitude, a.density, a.H);
 	return a.density*exp(-(z-a.altitude)/a.H);
 }
