@@ -1,10 +1,16 @@
 #ifndef PART_H
 #define PART_H 1
 
-class part {
+class rocket;
 
+class part {
+protected:
+	rocket *parent;
 public:
-	part();
+	part(rocket*);
+	virtual void update();
+	virtual float mass() = 0;
+	virtual void print() = 0;
 };
 
 #endif

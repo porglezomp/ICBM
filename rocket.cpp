@@ -6,12 +6,15 @@
 #include "stdlib.h"
 #include "physics.h"
 #include "debug.h"
+#include "part.h"
 
 void rocket::update() {
 	calcmass();
+	for (int i = 0; i < parts.size(); i++) {
+		parts[i]->update();
+	}
 	gravity();
 	drag();
-	thrust();
 	pos += vel * DELTATIME;
 	collision();
 	time += DELTATIME;
@@ -19,10 +22,12 @@ void rocket::update() {
 
 void rocket::print() {
 	printf("Time: %02i:%02i:%02i:%02i\n", (int)(time/3600), (int)(time/60)%60, (int)(time)%60, (int)(time*60)%60);
+	for (int i = 0; i < parts.size(); i++) {
+		parts[i]->print();
+	}
 	printf("	Velocity: %.4f\n", length(vel));
 	printf("	Altitude: %.2f\n", altitude());
 	printf("	"); printlatlon(pos);
-	printf("	Fuel: %.2f\n", fuel);
 	DEBUG(printf("	Air density: %f\n", airdensity(altitude())));
 	DEBUG(printf("	Mass: %f\n", mass));
 	DEBUG(float v = length(vel); printf("	Drag: %f\n", v * v * .5 * crosssection() * airdensity(altitude()) * dragcoef(v)));
@@ -35,19 +40,8 @@ void rocket::collision() {
 			printf("You crashed going really fast. (%f m/s)\n", length(vel));
 			exit(1);
 		}
-
-		vel.z = .05;
-	}
-}
-
-void rocket::thrust() {
-	if (firing) {
-		force(up * thrustforce);
-		fuel -= .128;
-	}
-	if (fuel <= 0) {
-		firing = false;
-		fuel = 0;
+		pos = normalize(pos)*R_EARTH;
+		vel = 0;
 	}
 }
 
@@ -76,19 +70,29 @@ float rocket::altitude() {
 	return length(pos)-R_EARTH;
 }
 
+
 void rocket::gravity() {
 	float r = length(pos);
 	accel(-pos * (G_PARAM / (r*r*r)));
 }
 
 void rocket::calcmass() {
-	mass = emptymass + fuel*FUELMASS;
+	mass = emptymass;
+	for (int i = 0; i < parts.size(); i++) {
+		mass += parts[i]->mass();
+	}
 }
 
 void rocket::fire(bool fstate) {
 	firing = fstate;
 }
 
+void rocket::addpart(part *p) {
+	parts.push_back(p);
+}
+
 rocket::rocket(const vec3 &pos, float f, float fuel, float m) : 
-				pos(pos), up(normalize(vec3(.3, .2, 1))), vel(0), firing(false), thrustforce(f), emptymass(m),
-				fuel(fuel) { }
+				pos(pos), up(normalize(vec3(.1, 1, 0))), vel(0), firing(false), thrustforce(f), emptymass(m)
+{ 
+	orientation = mat3::identity();
+}
