@@ -21,17 +21,17 @@ void interval(int start, int end, atmEntry *val) {
 
 void initatmosphere() {
 	// Fill the LUT
-	interval(0, 1, new atmEntry(0, 1.225, 10.42));
-	interval(1, 2, new atmEntry(1, 1.122, 10.30));
-	interval(2, 3, new atmEntry(2, 1.007, 10.19));
-	interval(3, 4, new atmEntry(3, 0.909, 10.06));
-	interval(4, 5, new atmEntry(4, 0.819, 9.95));
-	interval(5, 6, new atmEntry(5, 0.763, 9.82));
-	interval(6, 8, new atmEntry(6, 0.660, 9.70));
-	interval(8, 10, new atmEntry(8, 0.526, 9.46));
-	interval(10, 15, new atmEntry(10, 0.414, 9.21));
-	interval(15, 20, new atmEntry(15, 0.195, 8.16));
-	interval(20, 30, new atmEntry(20, 0.0889, 7.62));
+	interval(0, 1, new atmEntry(0, 1.225, 11.42));
+	interval(1, 2, new atmEntry(1, 1.122, 9.25));
+	interval(2, 3, new atmEntry(2, 1.007, 9.77));
+	interval(3, 4, new atmEntry(3, 0.909, 9.6));
+	interval(4, 5, new atmEntry(4, 0.819, 14.15));
+	interval(5, 6, new atmEntry(5, 0.763, 6.9));
+	interval(6, 8, new atmEntry(6, 0.660, 8.82));
+	interval(8, 10, new atmEntry(8, 0.526, 8.36));
+	interval(10, 15, new atmEntry(10, 0.414, 6.65));
+	interval(15, 20, new atmEntry(15, 0.195, 6.37));
+	interval(20, 30, new atmEntry(20, 0.0889, 6.36));
 	interval(30, 40, new atmEntry(30, 0.0184, 7.15));
 	interval(40, 50, new atmEntry(40, 0.0040, 6.99));
 	interval(50, 60, new atmEntry(50, 0.00103, 7.06));
@@ -45,6 +45,7 @@ void initatmosphere() {
 
 float airdensity(float z) {
 	z /= 1000;
+	if (isnan(z)) return 0;
 	if (z > 300) return 0;
 	if (z < 0) return 1.225;
 	atmEntry a = *densitymap[int(z)];
