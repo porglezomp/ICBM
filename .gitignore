@@ -39,3 +39,8 @@ Makefile.in
 
 ###Macs###
 .DS_Store
+
+###Executables###
+*.exe
+*.app
+*.out
