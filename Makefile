@@ -18,7 +18,7 @@ all: ${LIB} ${APP}
 
 ${APP}: ${SDIR}/main.c
 	gcc -o $@ $< ${CPPFLAGS} ${CFLAGS} ${LDFLAGS} -ldl -L${ODIR} -Wl,-rpath=${ODIR} \
-	-lmissile -MMD
+	-MMD
 
 ${LIB}: ${SDIR}/lib.c ${OBJS}
 	@echo ${OBJS}
