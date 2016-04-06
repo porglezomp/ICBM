@@ -1,9 +1,11 @@
 SDIR := src
 ODIR := bin
-SRCS := $(shell echo ${SDIR}/*.c)
+SRCS := $(wildcard ${SDIR}/*.c)
+SRCS := $(filter-out ${SDIR}/main.c ${SDIR}/lib.c, ${SRCS})
 OBJS := $(SRCS:${SDIR}/%.c=${ODIR}/%.o)
 DEPS := $(SRCS:${SDIR}/%.c=${ODIR}/%.d)
 
+LIB := ${ODIR}/libmissile.so
 APP := MissileGame.out
 
 CFLAGS := -Wall -Werror -Wextra -pedantic -std=c11 -g
@@ -12,10 +14,18 @@ LDFLAGS :=
 
 DUMMY := $(shell mkdir -p ${ODIR})
 
-${APP}: ${OBJS}
-	gcc -o $@ ${OBJS} ${CPPFLAGS} ${CFLAGS} ${LDFLAGS}
+all: ${LIB} ${APP}
 
-${ODIR}/%.o : ${SDIR}/%.c
+${APP}: ${SDIR}/main.c
+	gcc -o $@ $< ${CPPFLAGS} ${CFLAGS} ${LDFLAGS} -ldl -L${ODIR} -Wl,-rpath=${ODIR} \
+	-lmissile -MMD
+
+${LIB}: ${SDIR}/lib.c ${OBJS}
+	@echo ${OBJS}
+	gcc -o ${ODIR}/lib.o -c $< -fpic -MMD ${CPPFLAGS} ${CFLAGS} ${LDFLAGS}
+	gcc -shared -o $@ ${ODIR}/lib.o ${OBJS} ${CPPFLAGS} ${CFLAGS} ${LDFLAGS}
+
+${ODIR}/%.o : ${SDIR}/common/%.c
 	${CC} -o $@ $< -c ${CPPFLAGS} ${CFLAGS} -MMD
 
 clean:
