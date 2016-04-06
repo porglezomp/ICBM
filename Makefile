@@ -8,9 +8,9 @@ DEPS := $(SRCS:${SDIR}/%.c=${ODIR}/%.d)
 LIB := ${ODIR}/libmissile.so
 APP := MissileGame.out
 
-CFLAGS := -Wall -Werror -Wextra -pedantic -std=c11 -g
+CFLAGS := -Wall -Werror -Wextra -pedantic -std=c11 -g $(shell pkg-config sdl2 --cflags)
 CPPFLAGS :=
-LDFLAGS :=
+LDFLAGS := $(shell pkg-config sdl2 --libs) -lGLEW -lGL
 
 DUMMY := $(shell mkdir -p ${ODIR})
 
@@ -30,7 +30,8 @@ ${ODIR}/%.o : ${SDIR}/common/%.c
 	${CC} -o $@ $< -c ${CPPFLAGS} ${CFLAGS} -MMD
 
 clean:
-	rm -f ${OBJS}
+	rm -f ${ODIR}/*.o
+	rm -f ${ODIR}/*.d
 	rm -f ${APP}
 	rm -f ${LIB}
 	rmdir ${ODIR}

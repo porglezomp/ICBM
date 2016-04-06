@@ -1,12 +1,18 @@
 #ifndef _ICBM_LIB_H
 #define _ICBM_LIB_H
 
+#include <stdbool.h>
+
+#include <SDL2/SDL.h>
+
 /* The state struct contains the program state that persists between
  * reloads and between frames.
  */
 typedef struct {
-  int running;
+  bool running;
   int exit_status;
+  SDL_Window *window;
+  SDL_GLContext *context;
 } state;
 
 /* The game_api struct is the interface that the main program has access to
