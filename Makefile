@@ -24,6 +24,7 @@ ${LIB}: ${SDIR}/lib.c ${OBJS}
 	@echo ${OBJS}
 	gcc -o ${ODIR}/lib.o -c $< -fpic -MMD ${CPPFLAGS} ${CFLAGS} ${LDFLAGS}
 	gcc -shared -o $@ ${ODIR}/lib.o ${OBJS} ${CPPFLAGS} ${CFLAGS} ${LDFLAGS}
+	pkill ${APP} --signal SIGUSR1 || true
 
 ${ODIR}/%.o : ${SDIR}/common/%.c
 	${CC} -o $@ $< -c ${CPPFLAGS} ${CFLAGS} -MMD
@@ -31,6 +32,7 @@ ${ODIR}/%.o : ${SDIR}/common/%.c
 clean:
 	rm -f ${OBJS}
 	rm -f ${APP}
+	rm -f ${LIB}
 	rmdir ${ODIR}
 
 -include ${DEPS}

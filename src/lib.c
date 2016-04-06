@@ -1,5 +1,7 @@
 #include "lib.h"
 
+#include <stdio.h>
+
 /* Pass init() a block of memory corresponding to a state object. init()
  * is called when the program first starts, before reload() is called.
  * It will not be called when the program is reloaded.
@@ -38,7 +40,7 @@ static void update(state *s) {
 /* draw() is called at the end of each frame in order to render objects.
  */
 static void draw(state *s) {
-  s->running = 0;
+  (void) s;
 }
 
 /* finalize() is called when the program is finally shutting down, after
